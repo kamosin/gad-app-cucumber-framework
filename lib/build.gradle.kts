@@ -31,6 +31,7 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.cucumberjava)
     implementation(libs.cucumbertestng)
+//    testImplementation("io.cucumber:cucumber-junit:7.20.1")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -43,4 +44,15 @@ java {
 tasks.named<Test>("test") {
     // Use TestNG for unit tests.
     useTestNG()
+    isScanForTestClasses = false
+    testLogging.showStandardStreams = true
+}
+
+
+tasks.register<Test>("allTests") {
+
+    useTestNG {
+        isScanForTestClasses = false
+        suites("src/test/resources/testsuites/testng.xml")
+    }
 }
