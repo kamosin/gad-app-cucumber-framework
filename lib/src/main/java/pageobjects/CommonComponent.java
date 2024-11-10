@@ -41,6 +41,11 @@ public class CommonComponent {
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
+    public void waitForUrlToBeLoaded(String url){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlToBe(url));
+    }
+
     public String getPopupText() {
         waitForElementToAppear(alertPopup);
         WebElement popup = driver.findElement(alertPopup);
