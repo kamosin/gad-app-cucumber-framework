@@ -1,9 +1,12 @@
 package pageobjects;
 
+import api.testutils.TestUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.Objects;
 
 public class LoginPage {
 
@@ -47,5 +50,11 @@ public class LoginPage {
         clickLoginButton();
     }
 
+    public boolean checkIfOnLoginUrl() {
+        var loginPath = "/login/";
+        var loginUrl = TestUtils.getGlobalValue("baseUrl") + loginPath;
+        commonComponent.waitForUrlToBeLoaded(loginUrl);
+        return Objects.equals(driver.getCurrentUrl(), loginUrl);
+    }
 
 }

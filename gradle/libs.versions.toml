@@ -14,7 +14,7 @@ apachecommons = "2.17.0"
 logback = "1.5.11"
 cucumberjava = "7.20.1"
 cucumbertestng = "7.20.1"
-
+picocontainer = "7.20.1"
 
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
@@ -29,3 +29,4 @@ apachecommons = {module = "commons-io:commons-io", version.ref = "apachecommons"
 logback = {module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 cucumberjava = {module = "io.cucumber:cucumber-java", version.ref = "cucumberjava" }
 cucumbertestng = {module = "io.cucumber:cucumber-testng", version.ref = "cucumbertestng" }
+picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "picocontainer" }
