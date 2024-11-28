@@ -4,46 +4,57 @@ import api.models.UserRequest;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
+import pageobjects.NavigationBar;
 import pageobjects.RegistrationPage;
-import testutils.contexts.GuiTestContext;
+import testutils.ReusableData;
 import testutils.TestDataGenerator;
-import testutils.contexts.UserContext;
+import testutils.contexts.TestsContext;
 
 public class RegistrationPageStepDefinitions {
 
-    GuiTestContext guiTestContext;
+    TestsContext testsContext;
     RegistrationPage registrationPage;
-    UserContext userContext;
+    NavigationBar navigationBar;
     String registrationInfo;
 
-    public RegistrationPageStepDefinitions(GuiTestContext guiTestContext, UserContext userContext) {
-        this.guiTestContext = guiTestContext;
-        this.userContext = userContext;
-        this.registrationPage = guiTestContext.pageObjectManager.getRegistrationPage();
+    public RegistrationPageStepDefinitions(TestsContext testsContext) {
+        this.testsContext = testsContext;
+        this.registrationPage = testsContext.getPageObjectManager().getRegistrationPage();
+        this.navigationBar = testsContext.getPageObjectManager().getNavigationBar();
     }
 
-    @When("User registers with valid data on registration page")
-    public void user_registers_with_valid_data_on_registration_page() {
-        userContext.setUser(TestDataGenerator.generateUser());
-        registrationInfo = registrationPage.registerWithAllFields(userContext.getUser().firstname(),
-                userContext.getUser().lastname(), userContext.getUser().email(),
-                userContext.getUser().birthDate(), userContext.getUser().password(), userContext.getUser().avatar());
+    @When("User {string} is registered with valid data on registration page")
+    public void user_registers_with_valid_data_on_registration_page(String name) {
+        var user = TestDataGenerator.generateUser(name);
+        testsContext.getUsers().put(name, user);
+        registrationInfo = registrationPage.registerWithAllFields(user);
     }
 
     @Then("A {string} popup should appear")
-    public void a_popup_should_appear(String userCreatedMessage) {
-        Assert.assertEquals(registrationInfo, userCreatedMessage);
+    public void a_popup_should_appear(String userMessage) {
+        Assert.assertEquals(registrationInfo, userMessage);
     }
 
-    @When("User registers using existing email")
-    public void userRegistersUsingExistingEmail() {
-        registrationInfo = registrationPage.registerWithAllFields(userContext.getUser().firstname(),
-                userContext.getUser().lastname(), userContext.getUser().email(),
-                userContext.getUser().birthDate(), userContext.getUser().password(), userContext.getUser().avatar());
+    @When("User {string} is registered using existing email")
+    public void userRegistersUsingExistingEmail(String name) {
+        var user = new UserRequest(name, TestDataGenerator.generateLastName(), testsContext.getUsers().get("John").email(),
+                TestDataGenerator.generateBirthdate(), TestDataGenerator.generatePassword(), ReusableData.userAvatar);
+        testsContext.getUsers().put(name, user);
+        registrationInfo = registrationPage.registerWithAllFields(user);
     }
 
-    @Then("{string} popup should be displayed")
-    public void popupShouldBeDisplayed(String emailNotUniqueExpectedMessage) {
-        Assert.assertEquals(registrationInfo, emailNotUniqueExpectedMessage);
+    @When("User tries to register only with email address")
+    public void userTriesToRegisterOnlyWithEmailAddress() {
+        navigationBar.clickRegisterButton();
+        registrationPage.enterEmail(TestDataGenerator.generateEmail());
+        registrationPage.clickRegisterButton();
     }
+
+    @Then("{string} information is displayed below first name, last name, and password fields")
+    public void informationIsDisplayedBelowFirstNameLastNameAndPasswordFields(String requiredFieldInfo) {
+        Assert.assertTrue(registrationPage.isPasswordValidationTextVisible(requiredFieldInfo) &&
+                registrationPage.isLastNameValidationTextVisible(requiredFieldInfo) &&
+                registrationPage.isFirstNameValidationTextVisible(requiredFieldInfo));
+    }
+
 }

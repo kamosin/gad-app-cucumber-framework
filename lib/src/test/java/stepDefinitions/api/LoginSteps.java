@@ -6,25 +6,23 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import testutils.contexts.ApiTestContext;
-import testutils.contexts.UserContext;
+import testutils.contexts.TestsContext;
 
 public class LoginSteps {
 
-    ApiTestContext apiTestContext;
-    UserContext userContext;
+    TestsContext testsContext;
     Response loginResponse;
     LoginService loginService;
 
-    public LoginSteps(ApiTestContext apiTestContext, UserContext userContext) {
-        this.apiTestContext = apiTestContext;
-        this.userContext = userContext;
-        this.loginService = new LoginService(apiTestContext.requestManager);
+    public LoginSteps(TestsContext testsContext) {
+        this.testsContext = testsContext;
+        this.loginService = new LoginService(testsContext.getRequestManager());
     }
 
-    @When("the user attempts to log in")
-    public void the_user_attempts_to_log_in() {
-        loginResponse = loginService.login(new LoginRequest(userContext.getUser().email(), userContext.getUser().password()));
+    @When("the user {string} attempts to log in")
+    public void the_user_attempts_to_log_in(String name) {
+        var user = testsContext.getUsers().get(name);
+        loginResponse = loginService.login(new LoginRequest(user.email(), user.password()));
     }
 
     @Then("the login should be successful with status code {int}")

@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.cucumberjava)
     implementation(libs.cucumbertestng)
     implementation(libs.picocontainer)
+    implementation(libs.javanativeaccess)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

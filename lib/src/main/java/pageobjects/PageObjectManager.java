@@ -25,4 +25,8 @@ public class PageObjectManager {
     public MyAccountPage getMyAccountPage(){
         return new MyAccountPage(driver);
     }
+
+    public NavigationBar getNavigationBar(){
+        return new NavigationBar(driver);
+    }
 }

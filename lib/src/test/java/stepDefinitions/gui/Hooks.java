@@ -1,20 +1,32 @@
 package stepDefinitions.gui;
 
 import io.cucumber.java.After;
-import testutils.contexts.GuiTestContext;
+import io.cucumber.java.Before;
+import testutils.contexts.TestsContext;
 
 public class Hooks {
 
-    GuiTestContext guiTestContext;
+    TestsContext testsContext;
 
-    public Hooks(GuiTestContext guiTestContext) {
-        this.guiTestContext = guiTestContext;
+    public Hooks(TestsContext testsContext) {
+        this.testsContext = testsContext;
     }
 
-    @After
+    @Before("@GUI")
+    public void guiSetup(){
+        this.testsContext.setupBaseTest();
+        this.testsContext.setupPageObjectManager();
+    }
+
+    @Before("@API")
+    public void apiSetup(){
+        this.testsContext.setupRequestManager();
+    }
+
+    @After("@GUI")
     public void tearDown(){
-        if(guiTestContext.baseTest.driver!=null){
-            guiTestContext.baseTest.driver.quit();
+        if(testsContext.getBaseTest().driver!=null){
+            testsContext.getBaseTest().driver.quit();
         }
     }
 }

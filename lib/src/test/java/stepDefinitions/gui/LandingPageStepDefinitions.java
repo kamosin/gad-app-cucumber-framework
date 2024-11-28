@@ -3,16 +3,16 @@ package stepDefinitions.gui;
 import io.cucumber.java.en.Given;
 import org.testng.Assert;
 import pageobjects.LandingPage;
-import testutils.contexts.GuiTestContext;
+import testutils.contexts.TestsContext;
 
 public class LandingPageStepDefinitions {
 
-    GuiTestContext guiTestContext;
+    TestsContext testsContext;
     LandingPage landingPage;
 
-    public LandingPageStepDefinitions(GuiTestContext guiTestContext) {
-        this.guiTestContext = guiTestContext;
-        this.landingPage = guiTestContext.pageObjectManager.getLandingPage();
+    public LandingPageStepDefinitions(TestsContext testsContext) {
+        this.testsContext = testsContext;
+        this.landingPage = testsContext.getPageObjectManager().getLandingPage();
     }
 
     @Given("User is on the landing page")

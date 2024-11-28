@@ -3,7 +3,6 @@ package testutils;
 import api.models.ArticleRequest;
 import api.models.UserRequest;
 import com.github.javafaker.Faker;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
@@ -38,6 +37,10 @@ public class TestDataGenerator {
 
     public static UserRequest generateUser(){
         return new UserRequest(generateFirstName(), generateLastName(), generateEmail(), generateBirthdate(), generatePassword(), "0797eae7-5f95-4985-8ac8-10c58e17c769.jpg");
+    }
+
+    public static UserRequest generateUser(String name){
+        return new UserRequest(name, generateLastName(), generateEmail(), generateBirthdate(), generatePassword(), "0797eae7-5f95-4985-8ac8-10c58e17c769.jpg");
     }
 
     public static String generateText(int numberOfCharacters){

@@ -5,25 +5,22 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import org.testng.Assert;
-import testutils.contexts.ApiTestContext;
-import testutils.contexts.UserContext;
+import testutils.contexts.TestsContext;
 
 public class UserSteps {
 
-    ApiTestContext apiTestContext;
-    UserContext userContext;
+    TestsContext testsContext;
     Response userResponse;
     UserService userService;
 
-    public UserSteps(ApiTestContext apiTestContext, UserContext userContext) {
-        this.apiTestContext = apiTestContext;
-        this.userContext = userContext;
-        this.userService = new UserService(apiTestContext.requestManager);
+    public UserSteps(TestsContext testsContext) {
+        this.testsContext = testsContext;
+        this.userService = new UserService(testsContext.getRequestManager());
     }
 
-    @When("the user registers using API")
-    public void the_user_registers_using_api() {
-        userResponse = userService.createUser(userContext.getUser());
+    @When("the user {string} registers using API")
+    public void the_user_registers_using_api(String name) {
+        userResponse = userService.createUser(testsContext.getUsers().get(name));
     }
 
     @Then("API response should be successful with status code {int}")

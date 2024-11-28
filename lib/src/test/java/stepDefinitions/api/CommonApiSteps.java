@@ -1,20 +1,20 @@
 package stepDefinitions.api;
 
-import api.models.UserRequest;
 import io.cucumber.java.en.Given;
 import testutils.TestDataGenerator;
-import testutils.contexts.UserContext;
+import testutils.contexts.TestsContext;
 
 public class CommonApiSteps {
 
-    UserContext userContext;
+    TestsContext testsContext;
 
-    public CommonApiSteps(UserContext userContext) {
-        this.userContext = userContext;
+    public CommonApiSteps(TestsContext testsContext) {
+        this.testsContext = testsContext;
     }
 
-    @Given("a new user is generated")
-    public void a_new_user_is_generated() {
-        userContext.setUser(TestDataGenerator.generateUser());
+    @Given("a new user {string} is generated")
+    public void a_new_user_is_generated(String name) {
+        var user = TestDataGenerator.generateUser(name);
+        testsContext.getUsers().put(user.firstname(), user);
     }
 }

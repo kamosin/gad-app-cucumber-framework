@@ -4,19 +4,17 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageobjects.LoginPage;
-import testutils.contexts.GuiTestContext;
-import testutils.contexts.UserContext;
+import testutils.contexts.TestsContext;
 
 public class LoginPageStepDefinitions {
 
-    GuiTestContext guiTestContext;
-    UserContext userContext;
+    TestsContext testsContext;
     LoginPage loginPage;
 
-    public LoginPageStepDefinitions(GuiTestContext guiTestContext, UserContext userContext) {
-        this.guiTestContext = guiTestContext;
-        this.userContext = userContext;
-        this.loginPage = guiTestContext.pageObjectManager.getLoginPage();
+
+    public LoginPageStepDefinitions(TestsContext testsContext) {
+        this.testsContext = testsContext;
+        this.loginPage = testsContext.getPageObjectManager().getLoginPage();
     }
 
     @Then("The user is redirected to the login page")
@@ -24,8 +22,9 @@ public class LoginPageStepDefinitions {
         Assert.assertTrue(loginPage.checkIfOnLoginUrl());
     }
 
-    @When("Registered user logs in")
-    public void registered_user_logs_in() {
-        loginPage.login(userContext.getUser().email(), userContext.getUser().password());
+    @When("Registered user {string} logs in")
+    public void registered_user_logs_in(String name) {
+        var user = testsContext.getUsers().get(name);
+        loginPage.login(user.email(), user.password());
     }
 }
