@@ -1,5 +1,6 @@
 package stepDefinitions.api;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import testutils.TestDataGenerator;
 import testutils.contexts.TestsContext;
@@ -17,4 +18,5 @@ public class CommonApiSteps {
         var user = TestDataGenerator.generateUser(name);
         testsContext.getUsers().put(user.firstname(), user);
     }
+
 }

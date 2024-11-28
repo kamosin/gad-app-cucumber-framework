@@ -2,6 +2,7 @@ package testutils.contexts;
 
 import api.RequestManager;
 import api.models.UserRequest;
+import pageobjects.CommonComponent;
 import pageobjects.PageObjectManager;
 import testutils.GuiBaseTest;
 
@@ -12,8 +13,10 @@ public class TestsContext {
 
     private GuiBaseTest baseTest;
     private PageObjectManager pageObjectManager;
+    private CommonComponent commonComponent;
     private Map<String, UserRequest> users;
     private RequestManager requestManager;
+    private int numberOfArticles;
 
 
     public TestsContext() {
@@ -32,12 +35,20 @@ public class TestsContext {
         this.pageObjectManager = new PageObjectManager(baseTest.getDriver());
     }
 
+    public void setupCommonComponent() {
+        this.commonComponent = new CommonComponent(baseTest.getDriver());
+    }
+
     public GuiBaseTest getBaseTest() {
         return baseTest;
     }
 
     public PageObjectManager getPageObjectManager() {
         return pageObjectManager;
+    }
+
+    public CommonComponent getCommonComponent() {
+        return commonComponent;
     }
 
     public Map<String, UserRequest> getUsers() {
@@ -48,4 +59,11 @@ public class TestsContext {
         return requestManager;
     }
 
+    public int getNumberOfArticles() {
+        return numberOfArticles;
+    }
+
+    public void setNumberOfArticles(int numberOfArticles) {
+        this.numberOfArticles = numberOfArticles;
+    }
 }
