@@ -1,5 +1,6 @@
 package pageobjects;
 
+import api.models.UserRequest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -117,12 +118,16 @@ public class RegistrationPage {
 
     public String registerWithAllFields(String firstName, String lastName, String email, String date,
                                          String password, String imageName) {
-        navigationBar = new NavigationBar(driver);
         RegistrationPage registrationPage = navigationBar.clickRegisterButton();
         registrationPage.enterAllData(firstName, lastName, email, date,
                 password, imageName);
         registrationPage.clickRegisterButton();
         return commonComponent.getPopupText();
+    }
+
+    public String registerWithAllFields(UserRequest user){
+        return registerWithAllFields(user.firstname(), user.lastname(), user.email(), user.birthDate(),
+                user.password(), user.avatar());
     }
 
 }

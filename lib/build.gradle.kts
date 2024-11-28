@@ -31,7 +31,8 @@ dependencies {
     implementation(libs.logback)
     implementation(libs.cucumberjava)
     implementation(libs.cucumbertestng)
-//    testImplementation("io.cucumber:cucumber-junit:7.20.1")
+    implementation(libs.picocontainer)
+    implementation(libs.javanativeaccess)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -51,8 +52,6 @@ tasks.named<Test>("test") {
 
 tasks.register<Test>("allTests") {
 
-    useTestNG {
-        isScanForTestClasses = false
-        suites("src/test/resources/testsuites/testng.xml")
-    }
+    isScanForTestClasses = false
+    useTestNG()
 }

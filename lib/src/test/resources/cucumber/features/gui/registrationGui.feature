@@ -1,25 +1,24 @@
-@tag
+@GUI
 Feature: User registration using GUI
   Checking if new User can be registered using GUI
 
-  @GUI
-  Scenario: User registers and logs in with valid data
+  Scenario: User registration and login with valid data
     Given User is on the landing page
-    When User clicks the Register button on navigation bar
-    Then The Registration page should be displayed
-    When User enters all required registration data
-    And Clicks the Register button
+    When User "John" is registered with valid data on registration page
     Then A "User created" popup should appear
     And The user is redirected to the login page
-    When User enters email and password on the login page
-    And Clicks the Login button
-    Then User should be redirected to the account page
+    When Registered user "John" logs in
+    Then User "John" is redirected to account page
 
-#  Scenario: New user tries to register with existing email adress
-#    Given a new user is generated
-#    When the user registers using API
-#    Then API response should be successful with status code 201
-#    When Another user is generated with the same email as the former user
-#    And Another user tries to register
-#    Then API response should not be successful with status code 409
-#    And Error message should be "Email not unique"
+  Scenario: User registration with existing user email
+    Given User is on the landing page
+    When User "John" is registered with valid data on registration page
+    Then A "User created" popup should appear
+    And The user is redirected to the login page
+    When User "Mark" is registered using existing email
+    Then A "User not created! Email not unique" popup should appear
+
+  Scenario: User registration with only email address
+    Given User is on the landing page
+    When User tries to register only with email address
+    Then "This field is required" information is displayed below first name, last name, and password fields

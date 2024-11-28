@@ -26,4 +26,8 @@ public class LandingPage {
         startButton.click();
         return new ArticlesPage(driver);
     }
+
+    public boolean checkIfStartButtonIsVisible(){
+        return startButton.isDisplayed();
+    }
 }
