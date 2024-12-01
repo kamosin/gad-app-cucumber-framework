@@ -21,7 +21,7 @@ public class ArticlesService extends TestUtils{
         return requestManager.post(articlesEndpoint, articleRequest);
     }
 
-    public int getNumberOfArticles(String baseURI){
+    public int getNumberOfArticles(){
         return getArticles().jsonPath().getList("").size();
     }
 }

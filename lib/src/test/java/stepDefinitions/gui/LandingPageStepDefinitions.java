@@ -1,6 +1,7 @@
 package stepDefinitions.gui;
 
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageobjects.LandingPage;
 import testutils.contexts.TestsContext;
@@ -21,4 +22,8 @@ public class LandingPageStepDefinitions {
     }
 
 
+    @When("User clicks start button")
+    public void userClicksStartButton() {
+        landingPage.clickStartButton();
+    }
 }

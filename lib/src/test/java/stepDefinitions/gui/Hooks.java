@@ -16,6 +16,7 @@ public class Hooks {
     public void guiSetup(){
         this.testsContext.setupBaseTest();
         this.testsContext.setupPageObjectManager();
+        this.testsContext.setupCommonComponent();
     }
 
     @Before("@API")

@@ -4,6 +4,7 @@ import api.testutils.TestUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import pageobjects.CommonComponent;
 
 public class GuiBaseTest {
 
@@ -19,6 +20,7 @@ public class GuiBaseTest {
         }
         return driver;
     }
+
 
 
 

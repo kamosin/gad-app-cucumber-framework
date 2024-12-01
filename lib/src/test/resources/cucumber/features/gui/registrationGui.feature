@@ -22,3 +22,16 @@ Feature: User registration using GUI
     Given User is on the landing page
     When User tries to register only with email address
     Then "This field is required" information is displayed below first name, last name, and password fields
+
+  Scenario: User registration with wrong format data
+    Given User is on the landing page
+    When user tries to register with data
+      | John1          |
+      | Smith2         |
+      | john.smith@mail|
+      | 12-12-1969     |
+    Then Following messages are displayed
+      | Please enter only Letters!          |
+      | Please enter only letter.           |
+      | Please provide a valid email address|
+      | Date must be in format YYYY-MM-DD   |

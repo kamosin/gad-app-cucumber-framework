@@ -10,6 +10,8 @@ import testutils.ReusableData;
 import testutils.TestDataGenerator;
 import testutils.contexts.TestsContext;
 
+import java.util.List;
+
 public class RegistrationPageStepDefinitions {
 
     TestsContext testsContext;
@@ -57,4 +59,19 @@ public class RegistrationPageStepDefinitions {
                 registrationPage.isFirstNameValidationTextVisible(requiredFieldInfo));
     }
 
+    @When("user tries to register with data")
+    public void userTriesToRegisterWithData(List<String> data) {
+        navigationBar.clickRegisterButton();
+        registrationPage.enterAllData(data.getFirst(), data.get(1), data.get(2), data.get(3),
+                TestDataGenerator.generatePassword(), ReusableData.userAvatar);
+        registrationPage.clickRegisterButton();
+    }
+
+    @Then("Following messages are displayed")
+    public void followingMessagesAreDisplayed(List<String> data) {
+        Assert.assertTrue(registrationPage.isFirstNameValidationTextVisible(data.getFirst()) &&
+                registrationPage.isLastNameValidationTextVisible(data.get(1)) &&
+                registrationPage.isEmailValidationTextVisible(data.get(2)) &&
+                registrationPage.isDateValidationTextVisible(data.get(3)));
+    }
 }

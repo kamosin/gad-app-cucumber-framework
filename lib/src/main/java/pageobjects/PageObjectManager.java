@@ -1,6 +1,9 @@
 package pageobjects;
 
 import org.openqa.selenium.WebDriver;
+import pageobjects.articles.ArticlesPage;
+import pageobjects.articles.NewArticleModal;
+import pageobjects.flashposts.FlashpostsPage;
 
 public class PageObjectManager {
 
@@ -28,5 +31,17 @@ public class PageObjectManager {
 
     public NavigationBar getNavigationBar(){
         return new NavigationBar(driver);
+    }
+
+    public ArticlesPage getArticlesPage(){
+        return new ArticlesPage(driver);
+    }
+
+    public NewArticleModal getNewArticleModal(){
+        return new NewArticleModal(driver);
+    }
+
+    public FlashpostsPage getFlashpostsPage(){
+        return new FlashpostsPage(driver);
     }
 }
