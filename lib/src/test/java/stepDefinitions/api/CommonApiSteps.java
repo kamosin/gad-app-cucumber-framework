@@ -12,14 +12,16 @@ import testutils.ReusableData;
 import testutils.TestDataGenerator;
 import testutils.contexts.TestsContext;
 
+import static org.hamcrest.Matchers.containsString;
+
 public class CommonApiSteps {
 
     TestsContext testsContext;
-    Response userResponse;
+    Response requestResponse;
 
     public CommonApiSteps(TestsContext testsContext) {
         this.testsContext = testsContext;
-        this.userResponse = testsContext.getUserResponse();
+        this.requestResponse = testsContext.getRequestResponse();
     }
 
     @Given("A new user {string} is generated")
@@ -51,12 +53,12 @@ public class CommonApiSteps {
 
     @Then("API response should end with status code {int}")
     public void api_response_should_be_successful_with_status_code(Integer statusCode) {
-        Assert.assertEquals(testsContext.getUserResponse().statusCode(), statusCode);
+        Assert.assertEquals(testsContext.getRequestResponse().statusCode(), statusCode);
     }
 
     @And("API response should contain {string} message")
     public void apiResponseShouldContainMessage(String message) {
-        Assert.assertEquals(TestUtils.getJsonPath(testsContext.getUserResponse(), "error.message"), message);
+        testsContext.getRequestResponse().then().body("error.message", containsString(message));
     }
 
 }

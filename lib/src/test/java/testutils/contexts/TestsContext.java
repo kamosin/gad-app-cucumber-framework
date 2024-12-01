@@ -18,8 +18,9 @@ public class TestsContext {
     private Map<String, UserRequest> users;
     private RequestManager requestManager;
     private int numberOfArticles;
+    private int numberOfFlashposts;
     private String flashpostText;
-    private Response userResponse;
+    private Response requestResponse;
 
 
     public TestsContext() {
@@ -78,11 +79,19 @@ public class TestsContext {
         this.flashpostText = flashpostText;
     }
 
-    public Response getUserResponse() {
-        return userResponse;
+    public Response getRequestResponse() {
+        return requestResponse;
     }
 
-    public void setUserResponse(Response userResponse) {
-        this.userResponse = userResponse;
+    public void setRequestResponse(Response requestResponse) {
+        this.requestResponse = requestResponse;
+    }
+
+    public int getNumberOfFlashposts() {
+        return numberOfFlashposts;
+    }
+
+    public void setNumberOfFlashposts(int numberOfFlashposts) {
+        this.numberOfFlashposts = numberOfFlashposts;
     }
 }
