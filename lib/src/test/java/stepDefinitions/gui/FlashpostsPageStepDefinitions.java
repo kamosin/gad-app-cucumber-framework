@@ -25,10 +25,14 @@ public class FlashpostsPageStepDefinitions {
 
     @When("User inputs the data into flashpost creation modal")
     public void userInputsTheDataIntoFlashpostCreationModal(List<String> data) {
+        testsContext.setFlashpostText(data.getFirst());
         flashpostsPage = navigationBar.clickFlashpostsPageButton();
         newFlashpostModal = flashpostsPage.clickCreateFlashpostsButton();
         newFlashpostModal.enterFlashpostData(data.getFirst());
-        newFlashpostModal.setBackgroundColor(data.getLast());
+        newFlashpostModal.setBackgroundColor(data.get(1));
+        if(data.getLast().equals("public")){
+            newFlashpostModal.clickCheckbox();
+        }
         newFlashpostModal.clickCreateButton();
     }
 
@@ -43,5 +47,21 @@ public class FlashpostsPageStepDefinitions {
         flashpostsPage = navigationBar.clickFlashpostsPageButton();
         newFlashpostModal = flashpostsPage.clickCreateFlashpostsButton();
         newFlashpostModal.clickCreateButton();
+    }
+
+    @Then("Flashpost author's name {string} and flashpost text is displayed on top of flashposts")
+    public void flashpostAuthorSNameAndFlashpostTextIsDisplayedOnTopOfFlashposts(String name) {
+        var author = testsContext.getUsers().get(name);
+        var flashpostText = testsContext.getFlashpostText();
+        Assert.assertEquals(flashpostsPage.getFlashpostAuthor(0), author.firstname());
+        Assert.assertEquals(flashpostsPage.getFlashpostText(0), flashpostText);
+    }
+
+    @Then("Flashpost author's name {string} and flashpost text is not displayed on top of flashposts")
+    public void flashpostAuthorSNameAndFlashpostTextIsNotDisplayedOnTopOfFlashposts(String name) {
+        var author = testsContext.getUsers().get(name);
+        var flashpostText = testsContext.getFlashpostText();
+        Assert.assertNotEquals(flashpostsPage.getFlashpostAuthor(0), author.firstname());
+        Assert.assertNotEquals(flashpostsPage.getFlashpostText(0), flashpostText);
     }
 }

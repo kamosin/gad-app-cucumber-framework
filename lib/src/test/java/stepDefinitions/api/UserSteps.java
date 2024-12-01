@@ -16,15 +16,15 @@ public class UserSteps {
     public UserSteps(TestsContext testsContext) {
         this.testsContext = testsContext;
         this.userService = new UserService(testsContext.getRequestManager());
+        this.userResponse = testsContext.getUserResponse();
     }
 
     @When("the user {string} registers using API")
     public void the_user_registers_using_api(String name) {
-        userResponse = userService.createUser(testsContext.getUsers().get(name));
+        var response = userService.createUser(testsContext.getUsers().get(name));
+        testsContext.setUserResponse(response);
     }
 
-    @Then("API response should be successful with status code {int}")
-    public void api_response_should_be_successful_with_status_code(Integer statusCode) {
-        Assert.assertEquals(userResponse.statusCode(), statusCode);
-    }
+
+
 }

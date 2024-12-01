@@ -1,9 +1,12 @@
 package stepDefinitions.gui;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pageobjects.LoginPage;
+import pageobjects.NavigationBar;
 import pageobjects.RegistrationPage;
 import testutils.TestDataGenerator;
 import testutils.contexts.TestsContext;
@@ -12,12 +15,14 @@ public class CommonGuiSteps {
 
     TestsContext testsContext;
     RegistrationPage registrationPage;
+    NavigationBar navigationBar;
     LoginPage loginPage;
 
     public CommonGuiSteps(TestsContext testsContext) {
         this.testsContext = testsContext;
         this.registrationPage = testsContext.getPageObjectManager().getRegistrationPage();
         this.loginPage = testsContext.getPageObjectManager().getLoginPage();
+        this.navigationBar = testsContext.getPageObjectManager().getNavigationBar();
     }
 
     @Given("New user {string} is registered and logged in")
@@ -36,5 +41,15 @@ public class CommonGuiSteps {
     @Then("A {string} simple alert text is displayed")
     public void aSimpleAlertTextIsDisplayed(String simpleAlertText) {
         Assert.assertTrue(testsContext.getCommonComponent().getSimpleAlertsText().contains(simpleAlertText));
+    }
+
+    @When("User is logged out")
+    public void userIsLoggedOut() {
+        navigationBar.clickLogoutButton();
+    }
+
+    @And("User opens flashposts Page")
+    public void userOpensFlashpostsPage() {
+        navigationBar.clickFlashpostsPageButton();
     }
 }

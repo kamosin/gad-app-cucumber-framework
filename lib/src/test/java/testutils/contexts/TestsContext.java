@@ -2,6 +2,7 @@ package testutils.contexts;
 
 import api.RequestManager;
 import api.models.UserRequest;
+import io.restassured.response.Response;
 import pageobjects.CommonComponent;
 import pageobjects.PageObjectManager;
 import testutils.GuiBaseTest;
@@ -17,6 +18,8 @@ public class TestsContext {
     private Map<String, UserRequest> users;
     private RequestManager requestManager;
     private int numberOfArticles;
+    private String flashpostText;
+    private Response userResponse;
 
 
     public TestsContext() {
@@ -65,5 +68,21 @@ public class TestsContext {
 
     public void setNumberOfArticles(int numberOfArticles) {
         this.numberOfArticles = numberOfArticles;
+    }
+
+    public String getFlashpostText() {
+        return flashpostText;
+    }
+
+    public void setFlashpostText(String flashpostText) {
+        this.flashpostText = flashpostText;
+    }
+
+    public Response getUserResponse() {
+        return userResponse;
+    }
+
+    public void setUserResponse(Response userResponse) {
+        this.userResponse = userResponse;
     }
 }
