@@ -4,7 +4,6 @@ import api.testutils.TestUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import pageobjects.CommonComponent;
 
 public class GuiBaseTest {
 
@@ -13,7 +12,9 @@ public class GuiBaseTest {
 
     public WebDriver getDriver(){
         if(driver == null){
-            driver = new ChromeDriver(new ChromeOptions());
+            var options = new ChromeOptions();
+//            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
             driver.manage().window().maximize();
             driver.get(appUrl);
             return driver;

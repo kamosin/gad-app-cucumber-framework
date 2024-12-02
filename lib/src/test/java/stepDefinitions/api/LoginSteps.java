@@ -23,7 +23,7 @@ public class LoginSteps {
     @When("the user {string} attempts to log in")
     public void the_user_attempts_to_log_in(String name) {
         var user = testsContext.getUsers().get(name);
-        testsContext.getRequestManager().setToken(new LoginRequest(user.email(), user.password()));
+        testsContext.setRequestResponse(testsContext.getRequestManager().setToken(new LoginRequest(user.email(), user.password())));
     }
 
     @When("User logs out using API")

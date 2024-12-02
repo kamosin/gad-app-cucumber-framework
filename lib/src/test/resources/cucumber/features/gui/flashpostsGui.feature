@@ -1,4 +1,4 @@
-@GUI
+@GUI @Flashposts
 Feature: Flashposts functionality using GUI
 
   Scenario: Adding new flashpost by logged in user with proper data

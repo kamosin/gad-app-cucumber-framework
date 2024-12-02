@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.selenium)
     implementation(libs.restassured)
     implementation(libs.jacksondatabind)
-    implementation(libs.javafaker)
     implementation(libs.extentreports)
     implementation(libs.apachecommons)
     implementation(libs.logback)
@@ -33,6 +32,13 @@ dependencies {
     implementation(libs.cucumbertestng)
     implementation(libs.picocontainer)
     implementation(libs.javanativeaccess)
+    implementation(libs.grasshopper)
+    implementation(libs.javafaker) {
+        exclude(module = "snakeyaml")
+    }
+
+//    implementation("org.yaml:snakeyaml:2.0")
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -53,5 +59,31 @@ tasks.named<Test>("test") {
 tasks.register<Test>("allTests") {
 
     isScanForTestClasses = false
-    useTestNG()
+    useTestNG(){
+        suites("src/test/resources/testsuites/testng.xml")
+    }
+}
+
+tasks.register<Test>("guiTests") {
+
+    isScanForTestClasses = false
+    useTestNG(){
+        suites("src/test/resources/testsuites/testngGui.xml")
+    }
+}
+
+tasks.register<Test>("apiTests") {
+
+    isScanForTestClasses = false
+    useTestNG(){
+        suites("src/test/resources/testsuites/testngApi.xml")
+    }
+}
+
+tasks.register<Test>("smokeTests") {
+
+    isScanForTestClasses = false
+    useTestNG(){
+        suites("src/test/resources/testsuites/testngSmoke.xml")
+    }
 }

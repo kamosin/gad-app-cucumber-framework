@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="4" name="Smoke tests" parallel="methods">
+    <test name="Smoke Tests Runner">
+        <classes>
+            <class name="runner.TestNGSmokeTestsRunner"/>
+        </classes>
+    </test>
+</suite>

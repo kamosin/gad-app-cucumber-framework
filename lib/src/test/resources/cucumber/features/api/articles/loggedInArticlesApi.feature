@@ -1,4 +1,4 @@
-@API
+@API @RequestManager @Articles
 Feature: Articles creation using API
   Checking articles functionality using logged in user and API
 

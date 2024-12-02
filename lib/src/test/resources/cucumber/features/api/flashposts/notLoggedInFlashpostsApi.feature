@@ -1,4 +1,4 @@
-@API
+@API @RequestManager @Flashposts
 Feature: Flasposts creation using API
   Checking flashposts functionality using not logged in user and API
 

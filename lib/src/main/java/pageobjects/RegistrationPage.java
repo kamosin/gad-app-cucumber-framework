@@ -110,10 +110,9 @@ public class RegistrationPage {
         selectImage(imageName);
     }
 
-    public String clickRegisterButton(){
+    public void clickRegisterButton(){
         commonComponent.waitForElementToDisappear(datePicker);
         registerButton.click();
-        return commonComponent.getPopupText();
     }
 
     public String registerWithAllFields(String firstName, String lastName, String email, String date,
