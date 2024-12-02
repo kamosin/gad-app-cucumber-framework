@@ -13,7 +13,7 @@ public class GuiBaseTest {
     public WebDriver getDriver(){
         if(driver == null){
             var options = new ChromeOptions();
-//            options.addArguments("--headless");
+            options.addArguments("--headless");
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
             driver.get(appUrl);
