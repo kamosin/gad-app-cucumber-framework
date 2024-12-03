@@ -1,4 +1,4 @@
-@GUI @API
+@GUI @RequestManager @Articles
 Feature: Articles functionality using GUI
 
   Scenario: Adding new article using proper data with polish and special characters

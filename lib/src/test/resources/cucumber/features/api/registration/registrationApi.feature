@@ -1,7 +1,8 @@
-@API
+@API @RequestManager @Registration
 Feature: User registration using API
   Checking if new User can be registered using API call
 
+  @Smoke
   Scenario: User registers and logs in with proper data
     Given A new user "Andy" is generated
     When the user "Andy" registers using API

@@ -16,9 +16,10 @@ public class RequestManager {
     private static final String loginEndpoint = "/api/login";
     private String token;
 
-    public void setToken(LoginRequest loginRequest) {
+    public Response setToken(LoginRequest loginRequest) {
         var response = post(loginEndpoint, loginRequest);
         this.token = getJsonPath(response, "access_token");
+        return response;
     }
 
     public void logout(){

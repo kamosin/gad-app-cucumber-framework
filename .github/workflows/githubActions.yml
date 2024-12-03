@@ -1,0 +1,215 @@
+name: Simple CI Tests Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  smokeTests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Start Gad App
+        run: docker run -d -p 3001:3000 jaktestowac/gad:latest
+
+      - name: Run smoke Tests
+        run: ./gradlew clean smokeTests -i
+
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-testng-report
+          path: lib/build/test-results
+
+      - name: Upload extent Reports artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-extent-report
+          path: lib/test-output/
+
+  apiTests:
+    runs-on: ubuntu-latest
+    needs: smokeTests
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Start Gad App
+        run: docker run -d -p 3001:3000 jaktestowac/gad:latest
+
+      - name: Run API Tests
+        run: ./gradlew clean apiTests -i
+
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-testng-report
+          path: lib/build/test-results
+
+      - name: Upload extent Reports artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-extent-report
+          path: lib/test-output/
+
+
+  guiTests:
+    runs-on: ubuntu-latest
+    needs: smokeTests
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Start Gad App
+        run: docker run -d -p 3001:3000 jaktestowac/gad:latest
+
+      - name: Run GUI Tests
+        run: ./gradlew clean guiTests -i
+
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gui-testng-report
+          path: lib/build/test-results
+
+      - name: Upload extent Reports artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gui-extent-report
+          path: lib/test-output/
+
+#  e2eTests:
+#    runs-on: ubuntu-latest
+#    needs: smokeTests
+#    timeout-minutes: 5
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up JDK 21
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: '21'
+#          distribution: 'adopt'
+#
+#      - name: Start Gad App
+#        run: docker run -d -p 3001:3000 jaktestowac/gad:latest
+#
+#      - name: Run GUI Tests
+#        run: ./gradlew clean e2eTests -i
+#
+#      - name: Upload result artifact
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: e2e-testng-report
+#          path: lib/build/test-results
+#
+#      - name: Upload extent Reports artifact
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: e2e-extent-report
+#          path: lib/reports/
+
+  gatherReports:
+    runs-on: ubuntu-latest
+    needs: [smokeTests, apiTests, guiTests]
+    if: always()
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: smoke-testng-report
+          path: reports/smoke
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: api-testng-report
+          path: reports/api
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: gui-testng-report
+          path: reports/gui
+
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: e2e-testng-report
+#          path: reports/e2e
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: smoke-extent-report
+          path: extent/smoke
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: api-extent-report
+          path: extent/api
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: gui-extent-report
+          path: extent/gui
+
+#      - uses: actions/download-artifact@v4
+#        with:
+#          name: e2e-extent-report
+#          path: extent/e2e
+
+      - name: Merge reports
+        uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: 'reports/**/*.xml'
+          fail_on_failure: true
+
+      - name: Combine extent Reports
+        run: |
+          mkdir -p extent/combined/smoke extent/combined/api extent/combined/gui
+          cp -r extent/smoke/* extent/combined/smoke/
+          cp -r extent/api/* extent/combined/api/
+          cp -r extent/gui/* extent/combined/gui/
+#          cp -r extent/e2e/* extent/combined/e2e/
+
+      - name: Upload Combined Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-report
+          path: extent/combined/

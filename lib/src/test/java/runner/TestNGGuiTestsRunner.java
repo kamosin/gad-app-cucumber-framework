@@ -8,10 +8,10 @@ import org.testng.annotations.DataProvider;
         features = "src/test/resources/cucumber/features",
         glue= {"stepDefinitions" },
         monochrome = true,
-        tags = "@GUI or @API",
+        tags = "@GUI",
         plugin = {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 )
-public class TestNGTestRunner extends AbstractTestNGCucumberTests {
+public class TestNGGuiTestsRunner extends AbstractTestNGCucumberTests {
 
     @DataProvider(parallel = true)
     @Override

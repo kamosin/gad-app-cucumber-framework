@@ -16,6 +16,7 @@ cucumberjava = "7.20.1"
 cucumbertestng = "7.20.1"
 picocontainer = "7.20.1"
 javanativeaccess = "5.15.0"
+grasshopper = "1.13.0"
 
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
@@ -32,3 +33,4 @@ cucumberjava = {module = "io.cucumber:cucumber-java", version.ref = "cucumberjav
 cucumbertestng = {module = "io.cucumber:cucumber-testng", version.ref = "cucumbertestng" }
 picocontainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "picocontainer" }
 javanativeaccess = { module = "net.java.dev.jna:jna", version.ref = "javanativeaccess" }
+grasshopper = { module = "tech.grasshopper:extentreports-cucumber7-adapter", version.ref = "grasshopper"}

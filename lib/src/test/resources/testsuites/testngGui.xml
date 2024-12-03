@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="4" name="All tests suite" parallel="methods">
-    <test name="API Tests Runner">
-        <classes>
-            <class name="runner.TestNGApiTestsRunner"/>
-        </classes>
-    </test>
+<suite thread-count="4" name="GUI tests" parallel="methods">
     <test name="GUI Tests Runner">
         <classes>
             <class name="runner.TestNGGuiTestsRunner"/>

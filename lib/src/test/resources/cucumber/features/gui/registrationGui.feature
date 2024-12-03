@@ -1,7 +1,8 @@
-@GUI
+@GUI @Registration
 Feature: User registration using GUI
   Checking if new User can be registered using GUI
 
+  @Smoke
   Scenario: User registration and login with valid data
     Given User is on the landing page
     When User "John" is registered with valid data on registration page
