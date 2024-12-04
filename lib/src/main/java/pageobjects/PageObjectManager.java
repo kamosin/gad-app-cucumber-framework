@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import pageobjects.articles.ArticlesPage;
 import pageobjects.articles.NewArticleModal;
 import pageobjects.flashposts.FlashpostsPage;
+import pageobjects.surveys.SurveysPage;
 
 public class PageObjectManager {
 
@@ -43,5 +44,9 @@ public class PageObjectManager {
 
     public FlashpostsPage getFlashpostsPage(){
         return new FlashpostsPage(driver);
+    }
+
+    public SurveysPage getSurveysPage(){
+        return new SurveysPage(driver);
     }
 }

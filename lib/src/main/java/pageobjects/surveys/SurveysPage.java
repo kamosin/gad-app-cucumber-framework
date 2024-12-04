@@ -1,5 +1,6 @@
 package pageobjects.surveys;
 
+import api.testutils.TestUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,6 +12,7 @@ import pageobjects.surveys.statistics.AutomationStatisticsPage;
 import pageobjects.surveys.statistics.RestApiStatisticsPage;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SurveysPage {
 
@@ -48,6 +50,13 @@ public class SurveysPage {
     public AutomationStatisticsPage clickAutomationStatisticsButton(){
         automationTestingStatistics.click();
         return new AutomationStatisticsPage(driver);
+    }
+
+    public boolean checkIfOnSurveysUrl() {
+        var surveysPath = "/surveys.html";
+        var surveysUrl = TestUtils.getGlobalValue("baseUrl") + surveysPath;
+        commonComponent.waitForUrlToBeLoaded(surveysUrl);
+        return Objects.equals(driver.getCurrentUrl(), surveysUrl);
     }
 
 

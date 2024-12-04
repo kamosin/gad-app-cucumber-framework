@@ -85,3 +85,11 @@ tasks.register<Test>("smokeTests") {
         suites("src/test/resources/testsuites/testngSmoke.xml")
     }
 }
+
+tasks.register<Test>("e2eTests") {
+
+    isScanForTestClasses = false
+    useTestNG(){
+        suites("src/test/resources/testsuites/testngE2E.xml")
+    }
+}
