@@ -1,4 +1,4 @@
-@GUI
+@GUI @RequestManager @E2E
 Feature: Surveys functionality using GUI
 
   Scenario: Completing surveys and checking statistics
@@ -22,4 +22,4 @@ Feature: Surveys functionality using GUI
     |E2eTests        |AccessibilityTests  |
     |tekst automaty  |                    |
     Then Automation experience statistics in statistics page is increased
-    And Rest API experience rectangle height is increased
+    And Rest API experience statistics are increased

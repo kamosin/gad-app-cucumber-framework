@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="4" name="E2E tests suite" parallel="classes">
+    <test name="E2ETests Runner">
+        <classes>
+            <class name="runner.TestNGE2ETestsRunner"/>
+        </classes>
+    </test>
+</suite>

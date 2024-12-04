@@ -1,16 +1,18 @@
 package stepDefinitions.gui;
 
+import api.SurveysService;
+import api.testutils.TestUtils;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import org.testng.Assert;
 import pageobjects.MyAccountPage;
 import pageobjects.surveys.SurveysPage;
 import pageobjects.surveys.automationsurvey.*;
 import pageobjects.surveys.restapisurvey.*;
 import testutils.contexts.TestsContext;
-
-import java.util.List;
 
 public class SurveysPageStepDefinitions {
 
@@ -19,11 +21,15 @@ public class SurveysPageStepDefinitions {
     MyAccountPage myAccountPage;
     RestApiTestingSurveyPage restApiTestingSurveyPage;
     TestAutomationSurveyPage testAutomationSurveyPage;
+    SurveysService surveysService;
+    private int restApiTestingExperienceNumber;
+    private int automationTestingExperienceNumber;
 
     public SurveysPageStepDefinitions(TestsContext testsContext) {
         this.testsContext = testsContext;
         this.surveysPage = testsContext.getPageObjectManager().getSurveysPage();
         this.myAccountPage = testsContext.getPageObjectManager().getMyAccountPage();
+        this.surveysService = new SurveysService(testsContext.getRequestManager());
     }
 
     @And("User is on surveys page")
@@ -34,6 +40,7 @@ public class SurveysPageStepDefinitions {
 
     @When("User completes the REST API survey")
     public void userCompletesTheRESTAPISurvey(DataTable dataTable) {
+        this.restApiTestingExperienceNumber = Integer.parseInt(TestUtils.getJsonPath(surveysService.getRestApiSurveyStatistics(), "\"rest api testing\".yes"));
         var data = dataTable.asLists(String.class);
         var manualTestingExperience = Boolean.parseBoolean(data.getFirst().getFirst());
         var manualTestingTools = data.get(1).stream().map(ManualTestingTool::valueOf).toList();
@@ -52,6 +59,7 @@ public class SurveysPageStepDefinitions {
 
     @And("User completes the Automation Testing Survey")
     public void userCompletesTheAutomationTestingSurvey(DataTable dataTable) {
+        this.automationTestingExperienceNumber = Integer.parseInt(TestUtils.getJsonPath(surveysService.getAutomationSurveyStatistics(), "\"experience in test automation\".yes"));
         var data = dataTable.asLists(String.class);
         var automationTestingExperience = Boolean.parseBoolean(data.getFirst().getFirst());
         var yearsOfExperience = data.get(1).stream().map(YearsOfExperience::valueOf).toList();
@@ -65,4 +73,19 @@ public class SurveysPageStepDefinitions {
                 testAutomationTools, programmingLanguages, numberOfAutomatedTests, testTypes, text);
         testAutomationSurveyPage.clickReturnToSurveysButton();
     }
+
+    @Then("Automation experience statistics in statistics page is increased")
+    public void automationExperienceStatisticsInStatisticsPageIsIncreased() {
+        var oldNumber = automationTestingExperienceNumber;
+        var newNumber = Integer.parseInt(TestUtils.getJsonPath(surveysService.getAutomationSurveyStatistics(), "\"experience in test automation\".yes"));
+        Assert.assertEquals(oldNumber, newNumber -1);
+    }
+
+    @And("Rest API experience statistics are increased")
+    public void restAPIExperienceStatisticsAreIncreased() {
+        var oldNumber = restApiTestingExperienceNumber;
+        var newNumber = Integer.parseInt(TestUtils.getJsonPath(surveysService.getRestApiSurveyStatistics(), "\"rest api testing\".yes"));
+        Assert.assertEquals(oldNumber, newNumber -1);
+    }
+
 }
